@@ -46,9 +46,33 @@ namespace ECommerce.Controllers
             
             
         }
+        [HttpGet]
         public ActionResult Login()
         {
             return View();
+        }
+        [HttpPost]
+        public ActionResult Login(Models.Account.LoginModels model)
+        {
+            try
+            {
+                var user = context.Members.FirstOrDefault(x => x.Password == model.Member.Password && x.Email == model.Member.Email);
+                if (user != null)
+                {
+                    Session["LoginUser"] = user;
+                    return RedirectToAction("index", "Home");
+                }
+                else
+                {
+                    ViewBag.ReError = "Kullanici Bilgileriniz yanlış";
+                    return View();
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ReError = ex.Message;
+                return View();
+            }
         }
         public ActionResult Logout()
         {

@@ -203,6 +203,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Account\LoginModels.cs" />
     <Compile Include="Models\Account\RegisterModels.cs" />
     <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\Home\IndexModel.cs" />
@@ -223,6 +224,7 @@
     <Content Include="Views\Shared\ProductItem.cshtml" />
     <Content Include="Views\Shared\_MenuTopCategory.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
