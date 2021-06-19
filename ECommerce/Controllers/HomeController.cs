@@ -7,15 +7,8 @@ using System.Web.Mvc;
 
 namespace ECommerce.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        ECommerceDBEntities context;
-        public HomeController() 
-        {
-            context = new ECommerceDBEntities();
-            ViewBag.MenuCategories = context.Categories.Where(x=>x.Parent_Id==null).ToList();
-
-        }
         // GET: Home
         public ActionResult Index(int? id)
         {
