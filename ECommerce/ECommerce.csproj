@@ -51,6 +51,8 @@
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -102,6 +104,16 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="DB\ECommerceModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ECommerceModel.edmx</DependentUpon>
+      <LastGenOutput>ECommerceModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="DB\ECommerceModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ECommerceModel.edmx</DependentUpon>
+      <LastGenOutput>ECommerceModel.cs</LastGenOutput>
+    </Content>
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -113,6 +125,14 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <EntityDeploy Include="DB\ECommerceModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ECommerceModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="DB\ECommerceModel.edmx.diagram">
+      <DependentUpon>ECommerceModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="App_Code\_MenuHelper.cshtml" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -133,9 +153,56 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="DB\Addresses.cs">
+      <DependentUpon>ECommerceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\Categories.cs">
+      <DependentUpon>ECommerceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\Comments.cs">
+      <DependentUpon>ECommerceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\ECommerceModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ECommerceModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\ECommerceModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ECommerceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\ECommerceModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ECommerceModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="DB\Members.cs">
+      <DependentUpon>ECommerceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\MemberTypes.cs">
+      <DependentUpon>ECommerceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\MessageReplies.cs">
+      <DependentUpon>ECommerceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\Messages.cs">
+      <DependentUpon>ECommerceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\OrderDetails.cs">
+      <DependentUpon>ECommerceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\Orders.cs">
+      <DependentUpon>ECommerceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\Products.cs">
+      <DependentUpon>ECommerceModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Enums.cs" />
+    <Compile Include="Models\Home\IndexModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +217,8 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\ProductItem.cshtml" />
+    <Content Include="Views\Shared\_MenuTopCategory.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -159,7 +228,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

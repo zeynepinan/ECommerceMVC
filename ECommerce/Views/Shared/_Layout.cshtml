@@ -27,13 +27,8 @@
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="menulist">
-                @*
-                    TODO: KATEGORİLER
-                    <ul class="nav navbar-nav">
-                    <li><a href="#">Link 1</a></li>
-                    <li><a href="#">Link 2</a></li>
-                    <li><a href="#">Link 3</a></li>
-                </ul>*@
+                @Html.Partial("_MenuTopCategory",(List<ECommerce.DB.Categories>)ViewBag.MenuCategories)
+                   
                 <ul class="nav navbar-nav navbar-right">
                     <li>
                         <a href="#">
@@ -47,7 +42,7 @@
                     </li>
                     <li>
                         <a href="#">
-                            <span class="glyphicon glyphicon-user"></span>&nbsp;Kullanıcı Adı
+                            <span class="glyphicon glyphicon-user"></span>&nbsp;Zeynep İNAN
                         </a>
                     </li>
                     <li class="dropdown">
@@ -113,7 +108,7 @@
 
             <div class="col-md-6 col-md-offset-3 text-center">
                 <p>
-                    Tüm Hakları Saklıdır.&copy; 2017
+                    Tüm Hakları Saklıdır.&copy; 2021
                 </p>
                 <p>
                     <a href="mailto:mail@mailcom" class="btn btn-info btn-sm">E-Posta Gönder</a>
