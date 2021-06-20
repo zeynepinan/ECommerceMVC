@@ -59,7 +59,7 @@ namespace ECommerce.Controllers
                 var user = context.Members.FirstOrDefault(x => x.Password == model.Member.Password && x.Email == model.Member.Email);
                 if (user != null)
                 {
-                    Session["LoginUser"] = user;
+                    Session["LogonUser"] = user;
                     return RedirectToAction("index", "Home");
                 }
                 else
@@ -76,9 +76,10 @@ namespace ECommerce.Controllers
         }
         public ActionResult Logout()
         {
-            return View();
+            Session["LogonUser"] = null;
+            return RedirectToAction("Login", "Account");
         }
-        public ActionResult Profile()
+        public ActionResult Profil()
         {
             return View();
         }

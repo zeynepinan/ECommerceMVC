@@ -16,7 +16,6 @@ namespace ECommerce.Controllers
         {
             context = new ECommerceDBEntities();
             ViewBag.MenuCategories = context.Categories.Where(x => x.Parent_Id == null).ToList();
-
         }
     }
 }

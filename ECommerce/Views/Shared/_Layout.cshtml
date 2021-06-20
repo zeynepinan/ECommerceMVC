@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿
+@{ ECommerce.DB.Members logonUser = (ECommerce.DB.Members)Session["LogonUser"]; }
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>@ViewBag.Title</title>
@@ -27,24 +30,29 @@
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="menulist">
-                @Html.Partial("_MenuTopCategory",(List<ECommerce.DB.Categories>)ViewBag.MenuCategories)
-                   
+                @Html.Partial("_MenuTopCategory", (List<ECommerce.DB.Categories>)ViewBag.MenuCategories)
+
                 <ul class="nav navbar-nav navbar-right">
+                    @if (logonUser == null)
+                    {
+                <li>
+                    <a href="@Url.Action("Register", "Account")">
+                        <span class="glyphicon glyphicon-user"></span>&nbsp;Kayıt Ol
+                    </a>
+                </li> 
+                <li>
+                    <a href="@Url.Action("Login", "Account")">
+                        <span class="glyphicon glyphicon-log-in"></span>&nbsp;Giriş
+                    </a>
+                </li>
+                    }
+                    else
+                    {
                     <li>
                         <a href="#">
-                            <span class="glyphicon glyphicon-user"></span>&nbsp;Kayıt Ol
+                            <span class="glyphicon glyphicon-user"></span>&nbsp;@($"{logonUser.Name} {logonUser.Surname}")
                         </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <span class="glyphicon glyphicon-log-in"></span>&nbsp;Giriş
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <span class="glyphicon glyphicon-user"></span>&nbsp;Zeynep İNAN
-                        </a>
-                    </li>
+                    </li>}
                     <li class="dropdown">
                         <a href="#"
                            class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -55,20 +63,21 @@
 
                         <ul class="dropdown-menu">
                             @*<li><a href="#">Ürün 1</a></li>
-                            <li><a href="#">Ürün 2</a></li>
-                            <li><a href="#">Ürün 3</a></li>*@
+                <li><a href="#">Ürün 2</a></li>
+                <li><a href="#">Ürün 3</a></li>*@
                             <li class="divider" role="separator"></li>
                             <li><a href="#">Sepete Git</a></li>
                         </ul>
 
                     </li>
-                    
-                    <li>
-                        <a href="#">
-                            <span class="glyphicon glyphicon-log-out"></span>&nbsp;Çıkış
-                        </a>
-                    </li>
-                </ul>
+                    @if (logonUser != null)
+                    {
+                <li>
+                    <a href="@Url.Action("Logout", "Account")">
+                        <span class="glyphicon glyphicon-log-out"></span>&nbsp;Çıkış
+                    </a>
+                </li>}
+                            </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
@@ -80,12 +89,12 @@
 
 
 
-      @RenderBody()
+        @RenderBody()
 
 
 
     </div>
-    
+
 
     <div class="well">
         <div class="row">
