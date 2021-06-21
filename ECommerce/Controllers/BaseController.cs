@@ -27,5 +27,12 @@ namespace ECommerce.Controllers
             if (Session["LogonUser"] == null) return 0;
             return ((DB.Members)Session["LogonUser"]).Id;
         }
+        protected bool IsLogon()
+        {
+            if (Session["LogonUser"] == null)
+                return false;
+            else
+                return true;
+        }
     }
 }

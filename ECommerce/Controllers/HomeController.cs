@@ -60,5 +60,101 @@ namespace ECommerce.Controllers
 
             return RedirectToAction("Product", "Home");
         }
+
+        [HttpGet]
+        public ActionResult AddBasket(int id, bool remove = false)
+        {
+            List<Models.Home.BasketModels> basket = null;
+            if (Session["Basket"] == null)
+            {
+                basket = new List<Models.Home.BasketModels>();
+            }
+            else
+            {
+                basket = (List<Models.Home.BasketModels>)Session["Basket"];
+            }
+
+            if (basket.Any(x => x.Product.Id == id))
+            {
+                var pro = basket.FirstOrDefault(x => x.Product.Id == id);
+                if (remove && pro.Count > 0)
+                {
+                    pro.Count -= 1;
+                }
+                else
+                {
+                    if (pro.Product.UnitsInStock > pro.Count)
+                    {
+                        pro.Count += 1;
+                    }
+                    else
+                    {
+                        TempData["MyError"] = "Yeterli Stok yok";
+                    }
+                }
+
+            }
+            else
+            {
+                var pro = context.Products.FirstOrDefault(x => x.Id == id);
+                if (pro != null && pro.IsContinued && pro.UnitsInStock > 0)
+                {
+                    basket.Add(new Models.Home.BasketModels()
+                    {
+                        Count = 1,
+                        Product = pro
+                    });
+                }
+                else if (pro != null && pro.IsContinued == false)
+                {
+                    TempData["MyError"] = "Bu ürünün satışı durduruldu.";
+                }
+            }
+            basket.RemoveAll(x => x.Count < 1);
+            Session["Basket"] = basket;
+
+            return RedirectToAction("Basket", "Home");
+        }
+        [HttpGet]
+        public ActionResult Basket()
+        {
+            List<Models.Home.BasketModels> model = (List<Models.Home.BasketModels>)Session["Basket"];
+            if (model == null)
+            {
+                model = new List<Models.Home.BasketModels>();
+            }
+            if (base.IsLogon())
+            {
+                int currentId = CurrentUserId();
+                ViewBag.CurrentAddresses = context.Addresses
+                                            .Where(x => x.Member_Id == currentId)
+                                            .Select(x => new SelectListItem()
+                                            {
+                                                Text = x.Name,
+                                                Value = x.Id.ToString()
+                                            }).ToList();
+            }
+            ViewBag.TotalPrice = model.Select(x => x.Product.Price * x.Count).Sum();
+
+            return View(model);
+        }
+        [HttpGet]
+        public ActionResult RemoveBasket(int id)
+        {
+            List<Models.Home.BasketModels> basket = (List<Models.Home.BasketModels>)Session["Basket"];
+            if (basket != null)
+            {
+                if (id > 0)
+                {
+                    basket.RemoveAll(x => x.Product.Id == id);
+                }
+                else if (id == 0)
+                {
+                    basket.Clear();
+                }
+                Session["Basket"] = basket;
+            }
+            return RedirectToAction("Basket", "Home");
+        }
     }
 }
