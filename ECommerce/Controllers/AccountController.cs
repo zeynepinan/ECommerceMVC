@@ -164,5 +164,37 @@ namespace ECommerce.Controllers
                 return View(viewModel);
             }
         }
+
+        [HttpPost]
+        public ActionResult Address(DB.Addresses address)
+        {
+            DB.Addresses _address = null;
+            if (address.Id == Guid.Empty)
+            {
+                address.Id = Guid.NewGuid();
+                address.AddedDate = DateTime.Now;
+                address.Member_Id = base.CurrentUserId();
+                context.Addresses.Add(address);
+            }
+            else
+            {
+                _address = context.Addresses.FirstOrDefault(x => x.Id == address.Id);
+                _address.ModifiedDate = DateTime.Now;
+                _address.Name = address.Name;
+                _address.AdresDescription = address.AdresDescription;
+            }
+            context.SaveChanges();
+            return RedirectToAction("Profil", "Account");
+        }
+
+        [HttpGet]
+        public ActionResult RemoveAddress(string id)
+        {
+            var guid = new Guid(id);
+            var address = context.Addresses.FirstOrDefault(x => x.Id == guid);
+            context.Addresses.Remove(address);
+            context.SaveChanges();
+            return RedirectToAction("Profil", "Account");
+        }
     }
 }
