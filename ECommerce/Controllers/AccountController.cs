@@ -1,6 +1,8 @@
 ﻿using ECommerce.DB;
+using ECommerce.Models.Account;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -79,9 +81,88 @@ namespace ECommerce.Controllers
             Session["LogonUser"] = null;
             return RedirectToAction("Login", "Account");
         }
-        public ActionResult Profil()
+
+        [HttpGet]
+        public ActionResult Profil(int id = 0, string ad = "")
         {
-            return View();
+            List<DB.Addresses> addresses = null;
+            DB.Addresses currentAddress = new DB.Addresses();
+            if (id == 0)
+            {
+                id = base.CurrentUserId();
+                addresses = context.Addresses.Where(x => x.Member_Id == id).ToList();
+                if (!string.IsNullOrEmpty(ad))
+                {
+                    var guild = new Guid(ad);
+                    currentAddress = context.Addresses.FirstOrDefault(x => x.Id == guild);
+                }
+            }
+            var user = context.Members.FirstOrDefault(x => x.Id == id);
+            if (user == null) return RedirectToAction("index", "Home");
+            ProfilModels model = new ProfilModels()
+            {
+                Members = user,
+                Addresses = addresses,
+                CurrentAddress = currentAddress
+            };
+            return View(model);
+        }
+        [HttpGet]
+        public ActionResult ProfilEdit()
+        {
+            int id = base.CurrentUserId();
+            var user = context.Members.FirstOrDefault(x => x.Id == id);
+            if (user == null) return RedirectToAction("index", "i");
+            ProfilModels model = new ProfilModels()
+            {
+                Members = user
+            };
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult ProfilEdit(ProfilModels model)
+        {
+
+            try
+            {
+                int id = CurrentUserId();
+                var updateMember = context.Members.FirstOrDefault(x => x.Id == id);
+                updateMember.ModifiedDate = DateTime.Now;
+                updateMember.Bio = model.Members.Bio;
+                updateMember.Name = model.Members.Name;
+                updateMember.Surname = model.Members.Surname;
+
+                if (string.IsNullOrEmpty(model.Members.Password) == false)
+                {
+                    updateMember.Password = model.Members.Password;
+                }
+                if (Request.Files != null && Request.Files.Count > 0)
+                {
+                    var file = Request.Files[0];
+                    if (file.ContentLength > 0)
+                    {
+                        var folder = Server.MapPath("~/images/upload");
+                        var fileName = Guid.NewGuid() + ".jpg";
+                        file.SaveAs(Path.Combine(folder, fileName));
+
+                        var filePath = "images/upload/" + fileName;
+                        updateMember.ProfileImageName = filePath;
+                    }
+                }
+                context.SaveChanges();
+
+                return RedirectToAction("Profil", "Account");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.MyError = ex.Message;
+                int id = CurrentUserId();
+                var viewModel = new Models.Account.ProfilModels()
+                {
+                    Members = context.Members.FirstOrDefault(x => x.Id == id)
+                };
+                return View(viewModel);
+            }
         }
     }
 }

@@ -43,5 +43,22 @@ namespace ECommerce.Controllers
             };
             return View(model);
         }
+        [HttpPost]
+        public ActionResult Product(DB.Comments comment)
+        {
+            try
+            {
+                comment.Member_Id = base.CurrentUserId();
+                comment.AddedDate = DateTime.Now;
+                context.Comments.Add(comment);
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                ViewBag.MyError = ex.Message;
+            }
+
+            return RedirectToAction("Product", "Home");
+        }
     }
 }

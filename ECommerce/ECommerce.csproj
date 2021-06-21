@@ -224,8 +224,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Account\LoginModels.cs" />
+    <Compile Include="Models\Account\ProfilModels.cs" />
     <Compile Include="Models\Account\RegisterModels.cs" />
     <Compile Include="Models\Enums.cs" />
+    <Compile Include="Models\Home\CommentModels.cs" />
     <Compile Include="Models\Home\IndexModel.cs" />
     <Compile Include="Models\Home\ProductModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -250,6 +252,8 @@
     <Content Include="Views\Shared\_Product.cshtml" />
     <Content Include="Views\Shared\_AddCart.cshtml" />
     <Content Include="Views\Shared\_Comments.cshtml" />
+    <Content Include="Views\Account\Profil.cshtml" />
+    <Content Include="Views\Account\ProfilEdit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

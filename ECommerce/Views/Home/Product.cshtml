@@ -7,6 +7,4 @@
 @Html.Partial("_AddCart", Model.Product)
 
 
-@Html.Partial("_Comments", Model.Comments)
-
-@*@Html.Partial("_Comments", new ECommerce.Models.Home.CommentModels() { Comments = Model.Comments, Product = Model.Product })*@
+@Html.Partial("_Comments", new ECommerce.Models.Home.CommentModels() { Comments = Model.Comments, Product = Model.Product })
