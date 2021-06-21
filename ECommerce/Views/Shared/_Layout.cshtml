@@ -83,10 +83,15 @@
                     @if (logonUser != null)
                     {
         <li>
-            <a href="@Url.Action("Logout", "Account")">
-                <span class="glyphicon glyphicon-log-out"></span>&nbsp;Çıkış
+            <a href="~/Home/Buy">
+                <span class="glyphicon glyphicon-usd"></span>&nbsp;Siparişlerim
             </a>
-        </li>}
+        </li>
+                        <li>
+                            <a href="@Url.Action("Logout", "Account")">
+                                <span class="glyphicon glyphicon-log-out"></span>&nbsp;Çıkış
+                            </a>
+                        </li>}
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->

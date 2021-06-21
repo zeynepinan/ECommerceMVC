@@ -1,0 +1,109 @@
+﻿@model List<ECommerce.Models.Home.BuyModels>
+@{ ViewBag.Title = "Siparişleriniz";
+                var currentUser = (ECommerce.DB.Members)Session["LogonUser"];
+                var currentUserType = (int)currentUser.MemberType; }
+
+<h2>Sipariş Sayfası</h2>
+
+<h3>@TempData["MyError"]</h3>
+
+<table class="table table-condensed table-striped table-hover text-center">
+
+    <thead>
+        <tr>
+            <!--th*4>{kolon adı}-->
+            @if (currentUserType > 8)
+            {
+<th class="text-center">Müşteri</th>            }
+            <th class="text-center">Sipariş</th>
+            <th class="text-center">Fiyat</th>
+            <th class="text-center"></th>
+            <th class="text-center"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (ECommerce.Models.Home.BuyModels item in Model)
+        {
+<tr>
+    @if (currentUserType > 8)
+    {
+<td>
+    <a href="~/Account/Profil/@item.Member.Id" target="_blank">@item.Member.Name @item.Member.Surname</a>
+</td>                }
+    <td>@item.OrderName</td>
+    <td>@item.TotalPrice ₺</td>
+    <td>
+        @*
+            //Sipariş Verildi = SV
+            //Ödeme Bildirimi = OB
+            //Ödeme Onaylandı = OO *@
+        @if (item.OrderStatus == "SV")
+        {
+<button type="button" class="btn btn-info" onclick="OpenModal('@item.OrderId')">Ödeme Bildirimi</button> }
+                else if (item.OrderStatus == "OB")
+                {
+<span>Bildirim Yapıldı</span> }
+                else if (item.OrderStatus == "OO")
+                {
+<span>Ödeme Onaylandı</span>}
+
+    </td>
+    <td>
+        <button type="button" class="btn btn-info" onclick="ShowDes('@item.OrderId')">
+            <span class="glyphicon glyphicon-eye-open"></span>
+        </button>
+    </td>
+</tr>}
+    </tbody>
+</table>
+
+
+
+<div class="modal fade" id="orderinfo" tabindex="-1" role="dialog" aria-labelledby="productinfo-label">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="productinfo-label">Ödeme Bildirimi Bilgisi</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="orderId" value="" />
+                <textarea id="orderDes" class="form-control"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+                <button type="button" id="btnBildir" class="btn btn-success">
+                    <span class="glyphicon glyphicon-bell"></span>&nbsp;Bildir
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="orderStatusinfo" tabindex="-1" role="dialog" aria-labelledby="productinfo-label">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="productinfo-label">Sipariş Durumu</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="orderStatusId" value="" />
+                <textarea id="orderStatusDes" rows="5" class="form-control" @(currentUserType < 4 ? "readonly=\"readonly\"" : "")></textarea>
+                <span>
+                    <strong>Adres</strong>
+                    <p id="orderAddress"></p>
+                </span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+                @if (currentUserType > 3)
+                {
+    <button type="button" id="btnSiparisTamamla" class="btn btn-success">
+        <span class="glyphicon glyphicon-bell"></span>&nbsp;Siparisi Tamamla
+    </button>}
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -156,5 +156,105 @@ namespace ECommerce.Controllers
             }
             return RedirectToAction("Basket", "Home");
         }
+
+        [HttpPost]
+        public ActionResult Buy(string Address)
+        {
+            if (IsLogon())
+            {
+                try
+                {
+                    var basket = (List<Models.Home.BasketModels>)Session["Basket"];
+                    var guid = new Guid(Address);
+                    var _address = context.Addresses.FirstOrDefault(x => x.Id == guid);
+                    //Sipariş Verildi = SV
+                    //Ödeme Bildirimi = OB
+                    //Ödeme Onaylandı = OO
+
+                    var order = new DB.Orders()
+                    {
+                        AddedDate = DateTime.Now,
+                        Address = _address.AdresDescription,
+                        Member_Id = CurrentUserId(),
+                        Status = "SV",
+                        Id = Guid.NewGuid()
+                    };
+                    
+                    foreach (Models.Home.BasketModels item in basket)
+                    {
+                        var orderDetail = new DB.OrderDetails();
+                        orderDetail.AddedDate = DateTime.Now;
+                        orderDetail.Price = item.Product.Price * item.Count;
+                        orderDetail.Product_Id = item.Product.Id;
+                        orderDetail.Quantity = item.Count;
+                        orderDetail.Id = Guid.NewGuid();
+
+                        order.OrderDetails.Add(orderDetail);
+
+                        var _product = context.Products.FirstOrDefault(x => x.Id == item.Product.Id);
+                        if (_product != null && _product.UnitsInStock >= item.Count)
+                        {
+                            _product.UnitsInStock = _product.UnitsInStock - item.Count;
+                        }
+                        else
+                        {
+                            throw new Exception(string.Format("{0} ürünü için yeterli stok yoktur veya silinmiş bir ürünü almaya çalışıyorsunuz.", item.Product.Name));
+                        }
+                    }
+                    context.Orders.Add(order);
+                    context.SaveChanges();
+                    Session["Basket"] = null;
+                }
+                catch (Exception ex)
+                {
+                    TempData["MyError"] = ex.Message;
+                }
+                return RedirectToAction("Buy", "Home");
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+        }
+        [HttpGet]
+        public ActionResult Buy()
+        {
+            if (IsLogon())
+            {
+                var currentId = CurrentUserId();
+                IQueryable<DB.Orders> orders;
+                if (((int)CurrentUser().MemberType) > 8)
+                {
+                    orders = context.Orders.Where(x => x.Status == "OB");
+                }
+                else
+                {
+                    orders = context.Orders.Where(x => x.Member_Id == currentId);
+                }
+
+                List<Models.Home.BuyModels> model = new List<BuyModels>();
+                foreach (var item in orders)
+                {
+                    var byModel = new BuyModels();
+                    byModel.TotalPrice = item.OrderDetails.Sum(y => y.Price);
+                    byModel.OrderName = string.Join(", ", item.OrderDetails.Select(y => y.Products.Name + "(" + y.Quantity + ")"));
+                    byModel.OrderStatus = item.Status;
+                    byModel.OrderId = item.Id.ToString();
+                    byModel.Member = item.Members;
+                    model.Add(byModel);
+                }
+
+                return View(model);
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+        }
+
+        
     }
 }
+    

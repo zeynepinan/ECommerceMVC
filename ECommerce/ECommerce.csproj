@@ -229,8 +229,10 @@
     <Compile Include="Models\BasketModels.cs" />
     <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\Home\BasketModels.cs" />
+    <Compile Include="Models\Home\BuyModels.cs" />
     <Compile Include="Models\Home\CommentModels.cs" />
     <Compile Include="Models\Home\IndexModel.cs" />
+    <Compile Include="Models\Home\OrderNotificationModel.cs" />
     <Compile Include="Models\Home\ProductModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -257,6 +259,7 @@
     <Content Include="Views\Account\Profil.cshtml" />
     <Content Include="Views\Account\ProfilEdit.cshtml" />
     <Content Include="Views\Home\Basket.cshtml" />
+    <Content Include="Views\Home\Buy.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
