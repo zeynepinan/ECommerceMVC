@@ -1,4 +1,5 @@
 ﻿using ECommerce.DB;
+using ECommerce.Models.Home;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace ECommerce.Controllers
     public class HomeController : BaseController
     {
         // GET: Home
+        [HttpGet]
         public ActionResult Index(int? id)
         {
             IQueryable<DB.Products> products = context.Products;
@@ -26,6 +28,20 @@ namespace ECommerce.Controllers
             };
 
             return View(viewModel);
+        }
+        [HttpGet]
+        public ActionResult Product(int id = 0)
+        {
+            var pro = context.Products.FirstOrDefault(x => x.Id == id);
+
+            if (pro == null) return RedirectToAction("index", "Home");
+
+            ProductModels model = new ProductModels()
+            {
+                Product = pro,
+                Comments = pro.Comments.ToList()
+            };
+            return View(model);
         }
     }
 }
