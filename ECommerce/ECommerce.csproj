@@ -175,6 +175,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SalesController.cs" />
     <Compile Include="DB\Addresses.cs">
       <DependentUpon>ECommerceModel.tt</DependentUpon>
     </Compile>
@@ -260,6 +261,7 @@
     <Content Include="Views\Account\ProfilEdit.cshtml" />
     <Content Include="Views\Home\Basket.cshtml" />
     <Content Include="Views\Home\Buy.cshtml" />
+    <Content Include="Views\Sales\Sales.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

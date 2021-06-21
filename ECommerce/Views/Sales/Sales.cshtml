@@ -1,0 +1,41 @@
+﻿@model IEnumerable<ECommerce.DB.OrderDetails>
+
+@{ ViewBag.Title = "Satış Raporu"; }
+
+<h2>Ürünler</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Alınan ürün ")
+        </th>
+        <th>
+            @Html.DisplayName("Fiyatı")
+        </th>
+        <th>
+            @Html.DisplayName("Miktarı")
+        </th>
+        <th>
+            @Html.DisplayName("Alınma Tarihi")
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Products.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Price)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Quantity)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.AddedDate)
+    </td>
+</tr>}
+
+</table>

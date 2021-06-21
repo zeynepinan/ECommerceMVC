@@ -254,7 +254,52 @@ namespace ECommerce.Controllers
 
         }
 
-        
+        [HttpPost]
+        public JsonResult OrderNotification(OrderNotificationModel model)
+        {
+            if (string.IsNullOrEmpty(model.OrderId) == false)
+            {
+                var guid = new Guid(model.OrderId);
+                var order = context.Orders.FirstOrDefault(x => x.Id == guid);
+                if (order != null)
+                {
+                    order.Description = model.OrderDescription;
+                    order.Status = "OB";
+                    context.SaveChanges();
+                }
+            }
+            return Json("");
+        }
+
+        [HttpGet]
+        //[HttpPost]
+        public JsonResult GetProductDes(int id)
+        {
+            var pro = context.Products.FirstOrDefault(x => x.Id == id);
+            return Json(pro.Description, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult GetOrder(string id)
+        {
+            var guid = new Guid(id);
+            var order = context.Orders.FirstOrDefault(x => x.Id == guid);
+            return Json(new
+            {
+                Description = order.Description,
+                Address = order.Address
+            }, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult OrderCompilete(string id, string text)
+        {
+            var guid = new Guid(id);
+            var order = context.Orders.FirstOrDefault(x => x.Id == guid);
+            order.Description = text;
+            order.Status = "OO";
+            context.SaveChanges();
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
     }
 }
     
