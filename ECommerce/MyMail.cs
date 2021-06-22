@@ -22,7 +22,24 @@ namespace UdemyETicaret
         }
         public void SendMail()
         {
+            MailMessage mail = new MailMessage()
+            {
+                From = new MailAddress("MailAdresiniz@gmail.com", "E-TİCARET SİTESİ")
+            };
 
+            mail.To.Add(this.ToMail);
+            mail.Subject = this.Subject;
+            mail.Body = this.Body;
+
+            SmtpClient client = new SmtpClient()
+            {
+                Port = 587,
+                Host = "smtp.gmail.com",
+                EnableSsl = true
+            };
+            client.Credentials = new System.Net.NetworkCredential("MailAdresiniz@gmail.com", password);
+
+            client.Send(mail);
         }
     }
 }
