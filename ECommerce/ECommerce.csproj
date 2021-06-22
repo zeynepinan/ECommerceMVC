@@ -235,6 +235,7 @@
     <Compile Include="Models\Home\IndexModel.cs" />
     <Compile Include="Models\Home\OrderNotificationModel.cs" />
     <Compile Include="Models\Home\ProductModels.cs" />
+    <Compile Include="MyMail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -262,6 +263,7 @@
     <Content Include="Views\Home\Basket.cshtml" />
     <Content Include="Views\Home\Buy.cshtml" />
     <Content Include="Views\Sales\Sales.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

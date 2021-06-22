@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using UdemyETicaret;
 
 namespace ECommerce.Controllers
 {
@@ -195,6 +196,32 @@ namespace ECommerce.Controllers
             context.Addresses.Remove(address);
             context.SaveChanges();
             return RedirectToAction("Profil", "Account");
+        }
+
+
+        [HttpGet]
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult ForgotPassword(string email)
+        {
+            var member = context.Members.FirstOrDefault(x => x.Email == email);
+            if (member == null)
+            {
+                ViewBag.MyError = "Böyle bir hesap bulunamadı";
+                return View();
+            }
+            else
+            {
+                var body = "Şifreniz : " + member.Password;
+                MyMail mail = new MyMail(member.Email, "Şifremi Unuttum", body);
+                mail.SendMail();
+                TempData["Info"] = email + " mail adresinize şifreniz gönderilmiştir.";
+                return RedirectToAction("Login");
+            }
+
         }
     }
 }
