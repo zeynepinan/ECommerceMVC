@@ -1,4 +1,5 @@
 ﻿using ECommerce.DB;
+using ECommerce.Filter;
 using ECommerce.Models.Home;
 using System;
 using System.Collections.Generic;
@@ -44,6 +45,8 @@ namespace ECommerce.Controllers
             return View(model);
         }
         [HttpPost]
+
+        [MyAuthorization]
         public ActionResult Product(DB.Comments comment)
         {
             try
@@ -218,6 +221,8 @@ namespace ECommerce.Controllers
 
         }
         [HttpGet]
+
+        [MyAuthorization]
         public ActionResult Buy()
         {
             if (IsLogon())
@@ -255,6 +260,8 @@ namespace ECommerce.Controllers
         }
 
         [HttpPost]
+
+        [MyAuthorization]
         public JsonResult OrderNotification(OrderNotificationModel model)
         {
             if (string.IsNullOrEmpty(model.OrderId) == false)
@@ -272,7 +279,6 @@ namespace ECommerce.Controllers
         }
 
         [HttpGet]
-        //[HttpPost]
         public JsonResult GetProductDes(int id)
         {
             var pro = context.Products.FirstOrDefault(x => x.Id == id);
@@ -291,6 +297,8 @@ namespace ECommerce.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
+
+        [MyAuthorization]
         public JsonResult OrderCompilete(string id, string text)
         {
             var guid = new Guid(id);

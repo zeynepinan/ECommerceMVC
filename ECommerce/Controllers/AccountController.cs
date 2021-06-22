@@ -1,4 +1,5 @@
 ﻿using ECommerce.DB;
+using ECommerce.Filter;
 using ECommerce.Models.Account;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,6 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using UdemyETicaret;
 
 namespace ECommerce.Controllers
 {
@@ -109,6 +109,8 @@ namespace ECommerce.Controllers
             return View(model);
         }
         [HttpGet]
+
+        [MyAuthorization]
         public ActionResult ProfilEdit()
         {
             int id = base.CurrentUserId();
@@ -121,6 +123,8 @@ namespace ECommerce.Controllers
             return View(model);
         }
         [HttpPost]
+
+        [MyAuthorization]
         public ActionResult ProfilEdit(ProfilModels model)
         {
 
@@ -167,6 +171,8 @@ namespace ECommerce.Controllers
         }
 
         [HttpPost]
+
+        [MyAuthorization]
         public ActionResult Address(DB.Addresses address)
         {
             DB.Addresses _address = null;
@@ -189,6 +195,8 @@ namespace ECommerce.Controllers
         }
 
         [HttpGet]
+
+        [MyAuthorization]
         public ActionResult RemoveAddress(string id)
         {
             var guid = new Guid(id);

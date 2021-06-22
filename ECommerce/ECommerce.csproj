@@ -211,6 +211,7 @@
     <Compile Include="DB\Products.cs">
       <DependentUpon>ECommerceModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Filter\MyAuthorizationAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
