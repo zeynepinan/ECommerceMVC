@@ -158,16 +158,6 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
-    <Content Include="Template\Cart.html" />
-    <Content Include="Template\ForgotPassword.html" />
-    <Content Include="Template\index.html" />
-    <Content Include="Template\Login.html" />
-    <Content Include="Template\Message.html" />
-    <Content Include="Template\Messages.html" />
-    <Content Include="Template\MyProfile.html" />
-    <Content Include="Template\Product.html" />
-    <Content Include="Template\Register.html" />
-    <Content Include="Template\template.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

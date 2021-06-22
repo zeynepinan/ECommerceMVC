@@ -22,7 +22,7 @@ namespace UdemyETicaret
         }
         public void SendMail()
         {
-           
+
         }
     }
 }
